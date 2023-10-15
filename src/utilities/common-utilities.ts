@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync, statSync } from 'fs';
-import {resolve} from 'path';
+import {resolve,join} from 'path';
 
 /**
  * Gets the current working directory of the process.
@@ -31,3 +31,23 @@ export const readFile = (...file: string[]): string => {
 export const readDir = (path: string): string[] => {
     return readdirSync(path);
 };
+
+/**
+ * Checks if a given path corresponds to a directory.
+ * @param {string} path - The path to check.
+ * @returns {void}
+ * @throws {Error} Throws an error if the path does not exist.
+ */
+export const isDir = (path: string) => {
+	const stats = statSync(path)
+	return stats.isDirectory()
+};
+
+/**
+ * Joins one or more path components together and resolves them into an absolute path.
+ * @param {...string} paths - The path components to join together.
+ * @returns {string} The resolved absolute path.
+ */
+export const pathJoin = (...paths:string[]):string => {
+	return join(...paths);
+}
