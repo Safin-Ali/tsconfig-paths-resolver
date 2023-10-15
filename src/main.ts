@@ -22,7 +22,7 @@ const loopDir = (loopPath: string): void => {
              * If true, invoke the transformer function.
              */
             if (extname(elm) === '.js' || extname(elm) === '.cjs' || extname(elm) === '.mjs') {
-				transform(readFile(currElmPath))
+				transform(readFile(currElmPath),currElmPath)
             }
         } else {
 			// If 'currElmPath' is a directory, recursively call 'loopDir' on that directory.
