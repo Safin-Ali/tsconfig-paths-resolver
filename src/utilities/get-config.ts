@@ -26,6 +26,7 @@ const parseTSConfig = (function () {
         return jsonParse(TSconfigFile);
     } catch (err:any) {
         logger.error(`for debug check points of below \n 1. unnecessary "comma ," in tsconfig.json \n 2. not found paths property in tsconfig.json`);
+		throw new Error()
     }
 })();
 
