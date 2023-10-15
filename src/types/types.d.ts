@@ -1,0 +1,1 @@
+export type ModuleLiteral = 'ESM' | 'CommonJS' | 'CESM';
