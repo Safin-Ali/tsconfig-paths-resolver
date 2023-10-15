@@ -1,0 +1,28 @@
+{
+	"name": "tsconfig-paths-resolver",
+	"type": "commonjs",
+	"version": "1.0.0",
+	"main": "dist/index.js",
+	"scripts": {
+		"dev": "tsnd --respawn --clear ./src/main.ts",
+		"build": "tsc src/index.ts"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Safin-Ali/tsconfig-paths-resolver.git"
+	},
+	"author": "Safin Ali",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Safin-Ali/tsconfig-paths-resolver/issues"
+	},
+	"homepage": "https://github.com/Safin-Ali/tsconfig-paths-resolver#readme",
+	"description": "",
+	"dependencies": {
+		"json-to-js-obj": "^1.0.5",
+		"typescript": "^5.2.2"
+	},
+	"devDependencies": {
+		"@types/node": "^20.8.6"
+	}
+}
