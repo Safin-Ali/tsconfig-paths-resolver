@@ -1,5 +1,6 @@
 import { extname } from 'path';
-import { isDir, pathJoin, readDir, resolveWithRoot,} from './utilities/common-utilities';
+import { isDir, pathJoin, readDir, readFile, resolveWithRoot,} from './utilities/common-utilities';
+import transform from './utilities/transformer';
 
 /**
  * The entry path from cmd which to start the directory loop.
@@ -12,20 +13,20 @@ const entrySrcPath = 'sample';
  * @returns {void}
  */
 const loopDir = (loopPath: string): void => {
-    readDir(loopPath).forEach((dir) => {
-        const elmsType = pathJoin(loopPath, dir);
+    readDir(loopPath).forEach((elm) => {
+        const currElmPath = pathJoin(loopPath, elm);
 
-        if (!isDir(elmsType)) {
+        if (!isDir(currElmPath)) {
             /**
              * Check if the file extension is .js, .cjs, or .mjs.
              * If true, invoke the transformer function.
              */
-            if (extname(dir) === '.js' || extname(dir) === '.cjs' || extname(dir) === '.mjs') {
-                // TODO: Call the transformer function here.
+            if (extname(elm) === '.js' || extname(elm) === '.cjs' || extname(elm) === '.mjs') {
+				transform(readFile(currElmPath))
             }
         } else {
-			// If 'elmsType' is a directory, recursively call 'loopDir' on that directory.
-            loopDir(pathJoin(loopPath, dir));
+			// If 'currElmPath' is a directory, recursively call 'loopDir' on that directory.
+            loopDir(pathJoin(loopPath, elm));
         }
     });
 };
