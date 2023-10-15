@@ -4,7 +4,7 @@ import { ModuleLiteral } from '../types/types';
 /**
  * Checks the module type based on the provided module literal and node.
  * @param {ModuleLiteral} module - The module literal (e.g., 'ESM', 'CESM', 'CommonJS').
- * @param {any} node - The node to be checked.
+ * @param {Object|any} node - The node to be checked.
  * @returns {boolean} Returns true if the node matches the specified module type, otherwise false.
  */
 const checkModuleType = (module: ModuleLiteral, node: any):boolean => {

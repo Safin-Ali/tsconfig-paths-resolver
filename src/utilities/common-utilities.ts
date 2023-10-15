@@ -35,10 +35,10 @@ export const readDir = (path: string): string[] => {
 /**
  * Checks if a given path corresponds to a directory.
  * @param {string} path - The path to check.
- * @returns {void}
+ * @returns {boolean}
  * @throws {Error} Throws an error if the path does not exist.
  */
-export const isDir = (path: string) => {
+export const isDir = (path: string): boolean => {
 	const stats = statSync(path)
 	return stats.isDirectory()
 };
