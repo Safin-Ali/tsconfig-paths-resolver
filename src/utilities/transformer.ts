@@ -1,27 +1,39 @@
 import { parse } from '@babel/parser';
 import generate from "@babel/generator";
 import checkModuletype from './module-type-detector';
+import { getRelativePath } from './path-converter';
+import { thorwError } from './common-utilities';
+import logger from './color-logger';
+
 
 /**
  * Changes module values in the AST based on module type.
  * @param {Object} AST - Abstract Syntax Tree object.
- * @param {string} path - to resolve the current code alias to relative based on this.
- * @returns {Object} Modified AST.
+ * @param {string} jsFilePath - to resolve the current code alias to relative based on this.
+ * @returns {any} Modified AST.
  */
 
-const changeModuleVal = (AST: any,path:string):Object => {
+const changeModuleVal = (AST: any,jsFilePath:string) => {
+	try {
+		for (const node of AST.program.body) {
 
-	for (const node of AST.program.body) {
+			if (checkModuletype('ESM', node)) {
+				const pathValue = node.source.value;
 
-		if (checkModuletype('ESM', node)) {
-			node.source.value = 'is esm';
-		} else if (checkModuletype('CESM', node)) {
-			node.declarations[0].init.arguments[0].arguments[0].value = 'is xx js';
-		} else if (checkModuletype('CommonJS', node)) {
-			node.declarations[0].init.arguments[0].value = 'is common js';
+				node.source.value = getRelativePath(jsFilePath,pathValue);
+			} else if (checkModuletype('CESM', node)) {
+				const pathValue = node.declarations[0].init.arguments[0].arguments[0].value;
+				node.declarations[0].init.arguments[0].arguments[0].value = getRelativePath(jsFilePath,pathValue);
+			} else if (checkModuletype('CommonJS', node)) {
+				const pathValue = node.declarations[0].init.arguments[0].value;
+				node.declarations[0].init.arguments[0].value = getRelativePath(jsFilePath,pathValue);
+			}
 		}
+		return AST
+	} catch (err:any) {
+		logger.error((err.message))
+		thorwError()
 	}
-	return AST
 };
 
 /**
@@ -35,7 +47,6 @@ const createAST = (code: string,path:string) => {
 	});
 
 	const modifiedAST = changeModuleVal(ast,path);
-
 };
 
 /**
