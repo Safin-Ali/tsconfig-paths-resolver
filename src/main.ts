@@ -1,8 +1,16 @@
 import { extname } from 'path';
-import { isDir, pathJoin, readDir, readFile, resolveWithRoot,} from './utilities/common-utilities';
+import { isDir, pathJoin, readDir, readFile, resolveWithRoot, thorwError,} from './utilities/common-utilities';
 import transform from './utilities/transformer';
+import startExecute from './utilities/terminal-loader';
+
 
 /**
+ * this function wrapped for terminal
+	can show loading animation sync
+ */
+
+startExecute(()=>{
+	/**
  * The entry path from cmd which to start the directory loop.
  */
 const entrySrcPath = 'sample';
@@ -13,23 +21,28 @@ const entrySrcPath = 'sample';
  * @returns {void}
  */
 const loopDir = (loopPath: string): void => {
-    readDir(loopPath).forEach((elm) => {
-        const currElmPath = pathJoin(loopPath, elm);
+	try{
+		readDir(loopPath).forEach((elm) => {
+			const currElmPath = pathJoin(loopPath, elm);
 
-        if (!isDir(currElmPath)) {
-            /**
-             * Check if the file extension is .js, .cjs, or .mjs.
-             * If true, invoke the transformer function.
-             */
-            if (extname(elm) === '.js' || extname(elm) === '.cjs' || extname(elm) === '.mjs') {
-				transform(readFile(currElmPath),currElmPath)
-            }
-        } else {
-			// If 'currElmPath' is a directory, recursively call 'loopDir' on that directory.
-            loopDir(pathJoin(loopPath, elm));
-        }
-    });
+			if (!isDir(currElmPath)) {
+				/**
+				 * Check if the file extension is .js, .cjs, or .mjs.
+				 * If true, invoke the transformer function.
+				 */
+				if (extname(elm) === '.js' || extname(elm) === '.cjs' || extname(elm) === '.mjs') {
+					transform(readFile(currElmPath),currElmPath)
+				}
+			} else {
+				// If 'currElmPath' is a directory, recursively call 'loopDir' on that directory.
+				loopDir(pathJoin(loopPath, elm));
+			}
+		})
+	} catch (err:any) {
+		thorwError(err.message);
+	}
 };
 
 // Start the directory loop from the specified entry path.
 loopDir(resolveWithRoot(entrySrcPath));
+})
