@@ -27,12 +27,19 @@ const parseTSConfig = (function () {
 		return jsonParse(TSconfigFile).compilerOptions;
 	} catch (err: any) {
 		logger.error(`for debug check points of below \n 1. unnecessary "comma ," in tsconfig.json \n 2. not found paths property in tsconfig.json`);
-		throw new Error()
+		thorwError()
 	}
 })();
 
 // store path aliases all prop name as array
-const aliasesArr = Object.keys(parseTSConfig.paths);
+const aliasesArr = (() => {
+	try{
+		return Object.keys(parseTSConfig.paths)
+	} catch {
+		logger.error(`you have not paths alias in tsconfig.json`)
+		thorwError();
+	}
+})();
 
 /**
  * - this function checking the alias or path value is TS config alias or not
@@ -63,7 +70,6 @@ const isTSPathAlias = (alsProp: string, jsAlias: string): any => {
 		}
 		return result
 	} catch (err:any) {
-		logger.error((err.message))
 		thorwError(`TS Config Path Alias Checking Error`);
 	}
 };
@@ -114,8 +120,7 @@ const generateRelativePath = (tsPathAlsArr:string[],path:string,jsAlias:string):
 
 		return relPath;
 	} catch (err:any) {
-		logger.error((err.message))
-		thorwError(`Error while creating absolute to relative path`)
+		thorwError(`error occur while creating absolute to relative path`)
 	}
 };
 
@@ -139,7 +144,7 @@ export const getRelativePath = (path: string, jsAlias: string): string | any => 
 	let TSPathAls: string = '';
 
 	// looping path aliases all prop name array
-	aliasesArr.forEach(alsProp => {
+	aliasesArr!.forEach(alsProp => {
 		// check is it TS config alias
 		let result = isTSPathAlias(alsProp, jsAlias);
 		TSPathAls = result.TSPathAls;
@@ -155,8 +160,7 @@ export const getRelativePath = (path: string, jsAlias: string): string | any => 
 	// generate relative path
 	return generateRelativePath(TSPathAlsVal,path,jsAlias);
 	} catch (err:any) {
-		logger.error((err.message))
-		thorwError(`Error while trying to get relative`)
+		thorwError(err.message || `error occur while trying to get relative`)
 	}
 }
 
