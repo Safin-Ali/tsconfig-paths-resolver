@@ -44,6 +44,16 @@ export const isDir = (path: string): boolean => {
 };
 
 /**
+ * Throws an Error with an optional message.
+ *
+ * @param {string} [message=''] - The error message (optional).
+ * @throws {Error} Throws an Error with the provided message.
+ */
+export const thorwError = (message?:string) => {
+	throw new Error(message)
+}
+
+/**
  * Joins one or more path components together and resolves them into an absolute path.
  * @param {...string} paths - The path components to join together.
  * @returns {string} The resolved absolute path.
