@@ -4,16 +4,17 @@ import checkModuletype from './module-type-detector';
 import { getRelativePath } from './path-converter';
 import { thorwError } from './common-utilities';
 import logger from './color-logger';
+import { writeFileSync } from 'fs';
 
 
 /**
  * Changes module values in the AST based on module type.
  * @param {Object} AST - Abstract Syntax Tree object.
  * @param {string} jsFilePath - to resolve the current code alias to relative based on this.
- * @returns {any} Modified AST.
+ * @returns {any | Error} Modified AST.
  */
 
-const changeModuleVal = (AST: any,jsFilePath:string) => {
+const changeModuleVal = (AST: any,jsFilePath:string): any => {
 	try {
 		for (const node of AST.program.body) {
 
@@ -47,6 +48,8 @@ const createAST = (code: string,path:string) => {
 	});
 
 	const modifiedAST = changeModuleVal(ast,path);
+
+	writeFileSync(path,generate(modifiedAST).code)
 };
 
 /**
