@@ -2,6 +2,7 @@ import jsonParse from 'json-to-js-obj';
 import { pathJoin, readFile, resolveWithRoot, rootDir, thorwError } from './common-utilities';
 import logger from './color-logger';
 import { relative, sep, basename, } from 'path';
+import argObj from './command-handler';
 
 /**
  * Reads and parses the contents of the 'tsconfig.json' file in the root directory.
@@ -87,13 +88,13 @@ const generateRelativePath = (tsPathAlsArr:string[],path:string,jsAlias:string):
 
 		// again store removed extension from TSPathAlsVal
 		tsPathAlsArr = tsPathAlsArr.map(val => {
-			let regex = /\/\*\.ts$|\/\*\.js$|\/\*$/g;
+			let regex = /\/\*.[a-zA-Z]+$/g;
 
 			if (regex.test(val)) {
 				val = val.replace(regex, '')
 			}
 
-			return pathJoin(rootDir, 'sample', val)
+			return pathJoin(rootDir, argObj.srcArg, val)
 		})
 
 		// again loop the modified TSPathAlsVal and generate
@@ -160,7 +161,7 @@ export const getRelativePath = (path: string, jsAlias: string): string | any => 
 	// generate relative path
 	return generateRelativePath(TSPathAlsVal,path,jsAlias);
 	} catch (err:any) {
-		thorwError(err.message || `error occur while trying to get relative`)
+		thorwError(err.message || `error occur while trying to get relative path`)
 	}
 }
 
