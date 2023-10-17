@@ -2,18 +2,18 @@ import { extname } from 'path';
 import { isDir, pathJoin, readDir, readFile, resolveWithRoot, thorwError,} from './utilities/common-utilities';
 import transform from './utilities/transformer';
 import startExecute from './utilities/terminal-loader';
+import argObj from './utilities/command-handler';
 
 
 /**
- * this function wrapped for terminal
-	can show loading animation sync
+ * this function wrapped for terminal can show loading animation sync
+ * start path resolving
  */
 
-startExecute(()=>{
+const run = () => startExecute(()=>{
 	/**
  * The entry path from cmd which to start the directory loop.
  */
-const entrySrcPath = 'sample';
 
 /**
  * Recursively loops through a directory and performs an action on each file.
@@ -44,5 +44,7 @@ const loopDir = (loopPath: string): void => {
 };
 
 // Start the directory loop from the specified entry path.
-loopDir(resolveWithRoot(entrySrcPath));
-})
+loopDir(resolveWithRoot(argObj.srcArg));
+});
+
+export default run;
