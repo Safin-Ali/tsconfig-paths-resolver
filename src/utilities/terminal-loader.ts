@@ -41,7 +41,7 @@ const showLoader = (message: string): { stop: () => void } => {
 };
 
 // instance of showLoader interval
-const loader = showLoader('TS config path alias convert to relative');
+const loader = showLoader('Converting TS config path aliases to relative path');
 
 /**
  * Stops a previously started loader animation and logs a success message.
@@ -68,14 +68,11 @@ const startExecute = (exeFunc: () => void): void => {
 			try {
 				clearInterval(parentIntervalID);
 				exeFunc();
-				logger.success(`TS alias to relative path convert successfull 😊`)
 			} catch (err: any) {
 				logger.error(err.message)
 			} finally {
-				setTimeout(() => {
-					stopLoader(loader);
-					process.exit();
-				}, 1000)
+				stopLoader(loader);
+				process.exit();
 			}
 		}
 
