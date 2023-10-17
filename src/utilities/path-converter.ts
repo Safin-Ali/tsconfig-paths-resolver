@@ -42,6 +42,11 @@ const aliasesArr = (() => {
 	}
 })();
 
+// store baseUrl from tsconfig.json
+const TSbaseUrl = parseTSConfig.baseUrl;
+
+if(!TSbaseUrl) thorwError('please add => baseUrl <= property in tsconfig.json file')
+
 /**
  * - this function checking the alias or path value is TS config alias or not
  * @param {string} alsProp - The alias property.
@@ -94,11 +99,23 @@ const generateRelativePath = (tsPathAlsArr:string[],path:string,jsAlias:string):
 				val = val.replace(regex, '')
 			}
 
+			// resolving baseUrl based on CMD SrcArg
+			if(TSbaseUrl === './' || TSbaseUrl === '.') {
+				const firstPath  = val.split('/');
+				if(firstPath[0] !== argObj.srcArg) {
+					val = firstPath.slice(1).join('/');
+				}
+			} else {
+				val = val
+			}
+
 			return pathJoin(rootDir, argObj.srcArg, val)
 		})
 
 		// again loop the modified TSPathAlsVal and generate
 		tsPathAlsArr.forEach((val) => {
+			console.log(path, val, basename(jsAlias));
+
 			relPath = relative(path, pathJoin(val, basename(jsAlias)));
 			relPath = relPath.replaceAll(sep,'/');
 		})
