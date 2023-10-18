@@ -1,1 +1,3 @@
 src
+tsup.config.js
+tsconfig.json
