@@ -4,8 +4,11 @@
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"scripts": {
-		"dev": "tsnd --respawn --clear ./src/main.ts",
+		"dev": "tsnd --respawn --clear ./src/index.ts",
 		"build": "tsc src/index.ts"
+	},
+	"bin": {
+		"tsr":"./dist/index.js"
 	},
 	"repository": {
 		"type": "git",
@@ -19,10 +22,13 @@
 	"homepage": "https://github.com/Safin-Ali/tsconfig-paths-resolver#readme",
 	"description": "",
 	"dependencies": {
+		"@babel/generator": "^7.23.0",
+		"@babel/parser": "^7.23.0",
 		"json-to-js-obj": "^1.0.5",
 		"typescript": "^5.2.2"
 	},
 	"devDependencies": {
+		"@types/babel__generator": "^7.6.5",
 		"@types/node": "^20.8.6"
 	}
 }
