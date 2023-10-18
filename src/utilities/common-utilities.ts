@@ -1,5 +1,7 @@
-import { readFileSync, readdirSync, statSync } from 'fs';
-import { resolve, join } from 'path';
+import generate from '@babel/generator';
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'fs';
+import { resolve, join, dirname } from 'path';
+import argObj from './command-handler';
 
 /**
  * Gets the current working directory of the process.
@@ -60,4 +62,26 @@ export const thorwError = (message?: string) => {
  */
 export const pathJoin = (...paths: string[]): string => {
 	return join(...paths);
+};
+
+/**
+ * Writes content to a specified file.
+ * @param {string} fileDir - The directory path where the file will be append and write.
+ * @param {any} content - The content to be written to the file.
+ */
+export const writeFileDes = (fileDir:string,content:any) => {
+
+	// destination dir
+	const desDir = pathJoin(rootDir,argObj.destination);
+
+	// create destination dir if not exist
+	if (argObj.destination && !existsSync(desDir)) mkdirSync(desDir);
+
+	// create each file nested direcotry if not exist
+	if(argObj.destination && !existsSync(dirname(fileDir))) mkdirSync(dirname(fileDir));
+
+	// write relative path as JS file
+	writeFileSync(fileDir, generate(content).code, {
+		flag: 'w+'
+	});
 };
