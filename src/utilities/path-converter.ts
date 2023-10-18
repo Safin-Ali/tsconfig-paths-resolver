@@ -89,7 +89,7 @@ const generateRelativePath = (tsPathAlsArr: string[], path: string, jsAlias: str
 	try {
 		let relPath = '';
 
-		// again store removed extension from TSPathAlsVal
+		// store removed extension from TSPathAlsVal
 		tsPathAlsArr = tsPathAlsArr.map(val => {
 			let regex = /\/\*([.][a-zA-Z]+)?$/g;
 
@@ -100,7 +100,7 @@ const generateRelativePath = (tsPathAlsArr: string[], path: string, jsAlias: str
 			// resolving baseUrl based on CMD SrcArg
 			if (TSbaseUrl === './' || TSbaseUrl === '.') {
 				const firstPath = val.split('/');
-					val = firstPath.slice(1).join('/');
+				val = firstPath.slice(1).join('/');
 			}
 
 			return pathJoin(rootDir, argObj.srcArg, val)
@@ -108,7 +108,14 @@ const generateRelativePath = (tsPathAlsArr: string[], path: string, jsAlias: str
 
 		// again loop the modified TSPathAlsVal and generate
 		tsPathAlsArr.forEach((val) => {
-			relPath = relative(path, pathJoin(val, basename(jsAlias)));
+
+			// checking wheather is fixed alias or not
+			if (!jsAlias.includes('/')) {
+				val = val.replace(/\.ts$/, ".js")
+				relPath = relative(path, pathJoin(val));
+			} else {
+				relPath = relative(path, pathJoin(val, basename(jsAlias)));
+			}
 			relPath = relPath.replaceAll(sep, '/');
 		})
 
@@ -156,7 +163,7 @@ export const getRelativePath = (path: string, jsAlias: string): string | any => 
 		// looping path aliases all prop name array
 		aliasesArr!.forEach(alsProp => {
 			// check is it TS config alias
-			pathExistStatus = isTSPathAlias(alsProp, jsAlias,pathExistStatus);
+			pathExistStatus = isTSPathAlias(alsProp, jsAlias, pathExistStatus);
 		})
 
 		// executeBool false to return
