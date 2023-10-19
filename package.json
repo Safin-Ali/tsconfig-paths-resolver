@@ -28,6 +28,9 @@
 	"bin": {
 		"tspr": "dist/index.js"
 	},
+	"bin": {
+		"tsr":"./dist/index.js"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Safin-Ali/tsconfig-paths-resolver.git"
