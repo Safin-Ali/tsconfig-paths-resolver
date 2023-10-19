@@ -1,11 +1,32 @@
 {
 	"name": "tsconfig-paths-resolver",
 	"type": "commonjs",
-	"version": "1.0.0",
-	"main": "dist/index.js",
+	"types": "dist/main.d.ts",
+	"version": "1.0.1",
+	"main": "dist/main.js",
+	"readme": "README.md",
+	"keywords": [
+		"tsconfig-paths-resolver",
+		"tsconfig-path-alias-resolver",
+		"ts-alias-to-relative-path",
+		"module-alias-resolver",
+		"tsconfig-paths-build-time-resolver",
+		"tsconfig-paths-compiler-plugin",
+		"tsconfig-paths-build-tool",
+		"tsconfig-paths-bundler-plugin",
+		"tsconfig-paths-alias-resolver",
+		"tsconfig-paths-alias-build-time-resolver",
+		"tsconfig-paths-import-resolver",
+		"tsconfig-paths-import-build-time-resolver",
+		"tsconfig-paths-module-resolver",
+		"tsconfig-paths-module-build-time-resolver"
+	],
 	"scripts": {
 		"dev": "tsnd --respawn --clear ./src/index.ts",
-		"build": "tsc src/index.ts"
+		"build": "tsup"
+	},
+	"bin": {
+		"tspr": "dist/index.js"
 	},
 	"bin": {
 		"tsr":"./dist/index.js"
@@ -20,15 +41,16 @@
 		"url": "https://github.com/Safin-Ali/tsconfig-paths-resolver/issues"
 	},
 	"homepage": "https://github.com/Safin-Ali/tsconfig-paths-resolver#readme",
-	"description": "",
+	"description": "typescript modules paths aliases to relative path resolver at build time",
 	"dependencies": {
 		"@babel/generator": "^7.23.0",
 		"@babel/parser": "^7.23.0",
-		"json-to-js-obj": "^1.0.5",
-		"typescript": "^5.2.2"
+		"json-to-js-obj": "^1.0.5"
 	},
 	"devDependencies": {
 		"@types/babel__generator": "^7.6.5",
-		"@types/node": "^20.8.6"
+		"@types/node": "^20.8.6",
+		"tsup": "^7.2.0",
+		"typescript": "^5.2.2"
 	}
 }

@@ -1,10 +1,9 @@
 import { parse } from '@babel/parser';
-import generate from "@babel/generator";
 import checkModuletype from './module-type-detector';
 import { getRelativePath } from './path-converter';
-import { thorwError } from './common-utilities';
+import { thorwError, writeFileDes } from './common-utilities';
 import logger from './color-logger';
-import { writeFileSync } from 'fs';
+import argObj from './command-handler';
 
 
 /**
@@ -47,9 +46,14 @@ const createAST = (code: string,path:string) => {
 		sourceType: 'unambiguous',
 	});
 
+	// modified path value of JS ATS
 	const modifiedAST = changeModuleVal(ast,path);
 
-	writeFileSync(path,generate(modifiedAST).code)
+	// destination file path for which file will be write
+	const destinationPath = argObj.destination ? path.replace(argObj.srcArg,argObj.destination) : path;
+
+	// again write file with modifed js code
+	writeFileDes(destinationPath,modifiedAST);
 };
 
 /**
