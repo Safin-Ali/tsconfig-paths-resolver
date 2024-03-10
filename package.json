@@ -2,7 +2,7 @@
 	"name": "tsconfig-paths-resolver",
 	"type": "commonjs",
 	"types": "dist/main.d.ts",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"main": "dist/main.js",
 	"readme": "README.md",
 	"keywords": [
@@ -27,9 +27,6 @@
 	},
 	"bin": {
 		"tspr": "dist/index.js"
-	},
-	"bin": {
-		"tsr":"./dist/index.js"
 	},
 	"repository": {
 		"type": "git",

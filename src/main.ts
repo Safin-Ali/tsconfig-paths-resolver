@@ -1,7 +1,6 @@
 import { extname } from 'path';
 import { isDir, pathJoin, readDir, readFile, resolveWithRoot, thorwError,} from './utilities/common-utilities';
 import transform from './utilities/transformer';
-import startExecute from './utilities/terminal-loader';
 import argObj from './utilities/command-handler';
 import logger from './utilities/color-logger';
 
@@ -11,7 +10,7 @@ import logger from './utilities/color-logger';
  * start path resolving
  */
 
-const run = () => startExecute(()=>{
+const run = () => {
 
 	let status:boolean = false;
 
@@ -58,6 +57,6 @@ loopDir(resolveWithRoot(argObj.srcArg));
 // print status
 	status ? logger.success(`\nTS alias to relative path convert successfull 😊`) : logger.warn(`\nnot founded any JS file in ${resolveWithRoot(argObj.srcArg)} 🥹 😥`)
 
-});
+};
 
 export default run;
